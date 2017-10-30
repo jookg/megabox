@@ -348,7 +348,7 @@ reservation.index=(function(){
 	                              +' href="javascript:void(0)">8</a><span class="arrow"></span></li>'
 	                            +' <li data-select="09"><a title=""'
 	                              +' href="javascript:void(0)">9</a><span class="arrow"></span></li>'
-	                            +' <li data-select="10"><a title="선택됨" class="active"'
+	                            +' <li data-select="10"><a title=""'
 	                              +' href="javascript:void(0)">10</a><span class="arrow"></span></li>'
 	                            +' <li data-select="11"><a title=""'
 	                              +' href="javascript:void(0)">11</a><span class="arrow"></span></li>'
@@ -1493,14 +1493,18 @@ reservation.event=(()=>{
 		});
 		
 		$('#closeAll').click(()=>{
+			$('#selectedAllMovie').css('display', 'block');
+			$('#selectedMovieList').css('display', 'none');
+			$('#movie_slist').empty();
+			$('#movieSelected p').remove();
+			var ui = '<li class="no_movie_list"><span class="blind">조회된 상영목록이 없습니다</span></li>';
+			$('#movieTimeList').empty();
+			$('#movieTimeList').html(ui);
 			$('#close_reservation').trigger('click');
-			movielist_cancel();
+			
 			$('#cinemaList button').attr('class','btn_add');
 			$('#cinemaList button').attr('title','극장선택 빈프레임');
 			$('#cinemaList span').remove();
-			var ui = '<li class="no_movie_list"><span class="blind">조회된 상영목록이 없습니다</span></li>';
-			$('#movieTimeList').empty();
-			$('#movieTimeList').append(ui);
 			$('#cinemaSelected').empty();
 			$('.depth2 li').attr('class','');
 			$('#movieSelected p').remove();
