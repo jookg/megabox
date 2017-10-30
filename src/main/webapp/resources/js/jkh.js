@@ -1300,9 +1300,9 @@ reservation.index=(function(){
                       +' <div class="reset">'
                         +' <button class="img_btn booking btn_reset" type="button">다시선택</button>'
                         +' <div class="selected_man">'
-                          +' <span>좌석 선택 인원</span> <span><span'
+                         /* +' <span>좌석 선택 인원</span> <span><span'
                             +' id="currentCountSelectedTicket">4</span>/<span'
-                            +' id="totalCountSelectedTicket">8</span> </span>'
+                            +' id="totalCountSelectedTicket">8</span> </span>'*/
                         +' </div>'
                       +' </div>'
                     +' </div>'
@@ -1534,6 +1534,17 @@ reservation.event=(()=>{
 			//alert($(this).index());
 			$('.area_10 li a').attr('class','');
 		});
+		$('#refreshCinemaBtn').click(()=>{
+			$('#cinemaList button').attr('class','btn_add');
+			$('#cinemaList button').attr('title','극장선택 빈프레임');
+			$('#cinemaList span').remove();
+			$('#cinemaSelected').empty();
+			$('.depth2 li').attr('class','');
+			timeline();
+		});
+		$('#refreshMovieBtn').click(()=>{
+			movielist_cancel();
+		});
 		/*$('.dateSelect a').click(()=>{
 			alert($(this).val());
 			//$(this).attr('class','actives');
@@ -1555,6 +1566,7 @@ reservation.event=(()=>{
 			var ui = '<li class="no_movie_list"><span class="blind">조회된 상영목록이 없습니다</span></li>';
 			$('#movieTimeList').empty();
 			$('#movieTimeList').append(ui);
+			$('.depth2 li').attr('class','');
 		}
 	};
 	var movielist_cancel=()=>{
@@ -1666,7 +1678,7 @@ reservation.event=(()=>{
 		                              +' onmouseover="" onmouseout="" onkeyup="" onkeypress=""'
 		                              +' onclick="" onblur=""'
 		                              +' type="button" popupyn="N" seatlinecnt="6" seattype="10"'
-		                              +' seatno="1" seatgroup="A">'+j.seatno+'</button>';
+		                              +' seatno="'+j.seatno+'" seatgroup="'+j.line+'">'+j.seatno+'</button>';
 								left+=18;
 							});
 							$('#seatPositionList').empty();
@@ -1674,7 +1686,7 @@ reservation.event=(()=>{
 							$('#seatPositionList button').on('click',function(){
 								if($(this).attr('class')=='seat_normal'){
 									if($('#selectno').text() > $('#selectedSeatNumbers1 li').length){
-									var seat=$(this).attr('title');
+									var seat=$(this).attr('seatgroup')+$(this).attr('seatno');
 									$(this).attr('class','seat_selected');
 									$(this).attr('title',seat+'(선택됨)');
 									
@@ -1689,7 +1701,7 @@ reservation.event=(()=>{
 										}
 									}
 								}else if($(this).attr('class')=='seat_selected'){
-									var seat=$(this).attr('title');
+									var seat=$(this).attr('seatgroup')+$(this).attr('seatno');
 									$(this).attr('class','seat_normal');
 									$(this).attr('title',seat+'(일반석)');
 									//ticketTotalPrice
@@ -1746,26 +1758,32 @@ reservation.event=(()=>{
 					
 					$('#reservation_credit').click(e=> {
 						e.preventDefault();
+						if($('#selectno').text() == $('#selectedSeatNumbers1 li').length){
 						for(var i=0; i<$('#selectedSeatNumbers1 li').length;i++){
-						$.ajax({
-							url : $$('x')+'/gh/reservation/insert',
-							method : 'post',
-							dataType:'json',
-							data : JSON.stringify({
-								'screeningNumber':$('#re_screen_num').attr('data-screeningnumber'),
-								'seatSeq':$('#selectedSeatNumbers1 li').eq(i).text(),
-								'cancel':'Y',
-								'id':'d'
-							}),
-							contentType : 'application/json',
-							success : d=>{
-								//alert('ajax 통신 성공'+d.msg);
-							},
-							error : (x,s,m)=>{
-								//alert('결제 오류'+m);
-							}
-						});
-					}
+							$.ajax({
+								url : $$('x')+'/gh/reservation/insert',
+								method : 'post',
+								dataType:'json',
+								data : JSON.stringify({
+									'screeningNumber':$('#re_screen_num').attr('data-screeningnumber'),
+									'seatSeq':$('#selectedSeatNumbers1 li').eq(i).text(),
+									'cancel':'N',
+									'id':'d'
+								}),
+								contentType : 'application/json',
+								success : d=>{
+									//alert('ajax 통신 성공'+d.msg);
+								},
+								error : (x,s,m)=>{
+									//alert('결제 오류'+m);
+								}
+							});
+						}
+						alert('예매가 완료되었습니다.');
+						$('#closeAll').trigger('click');
+						}else{
+							alert('예매하고자 하는 좌석수와 선택한 좌석수가 일치하지 않습니다.');
+						}
 					});
 				});
 			}else{

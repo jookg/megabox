@@ -55,7 +55,7 @@ public class GHController {
 		};
 	
 		map.put("seatlist", slist.execute(cmd));
-		System.out.println(map.get("seatlist"));
+		//System.out.println(map.get("seatlist"));
 		
 		return map;
 	}
@@ -96,7 +96,7 @@ public class GHController {
 			gmapper.insert(re);
 		};
 		post.execute(re);
-		map.put("msg", "ㅇㅋ");
+		map.put("msg", "successed");
 		
 		return map;
 	};
