@@ -11,6 +11,9 @@
 <script src="${path.js}/megabox.js"></script>
 <script src="${path.js}/seungwoo.js"></script>
 <script src="${path.js}/jkh.js"></script>
+<script src="${path.js}/bootstrap-datepicker.js"></script>
+<script src="${path.js}/jquery.easing.1.3.js"></script>
+<script src="${path.js}/jquery.pjax.js"></script>
 <script src="${path.js}/jooyoul.js"></script>
 <link rel="stylesheet" href="${path.css}/megabox.css" />
 <link href="http://www.megabox.co.kr/css/megabox.css" rel="stylesheet">
