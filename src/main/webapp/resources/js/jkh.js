@@ -1391,6 +1391,7 @@ reservation.event=(()=>{
                   +' </p></li>';
 					
 				});
+				$('#movieSelected p').remove();
 				$('#selectMovieList').empty();
 				$('#selectMovieList').append(ui);
 				
@@ -1427,7 +1428,6 @@ reservation.event=(()=>{
 		$('#btnMovieCancel').click(()=> {
 			$('#select_movie').addClass('modal fade booking_lp booking_lp2');
 			$('#select_movie').css('display', 'none');
-			$('#movieSelected p').remove();
 		});
 		$('#btnMovieConfirm').click(()=> {
 			$('#select_movie').addClass('modal fade booking_lp booking_lp2');
@@ -1477,10 +1477,16 @@ reservation.event=(()=>{
 					}
 				});
 				$(this).parent('div').parent('li').remove();
-				$('#movie_slist').append('<li><div class="poster"><button title="극장선택 빈프레임" class="btn_add" type="button"></button></div></li>');
+				$('#movie_slist').append('<li><div class="poster"><button title="극장선택 빈프레임" class="openmovie btn_add" type="button"></button></div></li>');
 				if($('#movie_slist li div button').attr('title')=='극장선택 빈프레임'){
 					movielist_cancel();
 				}
+				$('.openmovie').on('click',function(){
+					$('#select_movie').addClass('modal fade booking_lp booking_lp2 in');
+					$('#select_movie').css('display', 'block');
+					$('#select_movie').css('z-index', '1200');
+					
+				});
 			});
 			$('.openmovie').on('click',function(){
 				$('#select_movie').addClass('modal fade booking_lp booking_lp2 in');
@@ -1544,7 +1550,9 @@ reservation.event=(()=>{
 			$('#cinemaList span').remove();
 			$('#cinemaSelected').empty();
 			$('.depth2 li').attr('class','');
-			timeline();
+			var ui = '<li class="no_movie_list"><span class="blind">조회된 상영목록이 없습니다</span></li>';
+			$('#movieTimeList').empty();
+			$('#movieTimeList').append(ui);
 		});
 		$('#refreshMovieBtn').click(()=>{
 			movielist_cancel();
